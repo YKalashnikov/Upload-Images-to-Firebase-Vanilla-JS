@@ -169,15 +169,11 @@ var element = function element(tag) {
 function noop() {}
 
 function upload(selector) {
+  var _options$onUpload;
+
   var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
   var files = [];
-
-  var onUpload = function onUpload() {
-    if (!options.onUpload) {
-      return noop;
-    }
-  };
-
+  var onUpload = (_options$onUpload = options.onUpload) !== null && _options$onUpload !== void 0 ? _options$onUpload : noop;
   var input = document.querySelector(selector);
   var preview = element('div', ['preview']);
   var open = element('button', ['btn'], 'Open');
@@ -245,6 +241,11 @@ function upload(selector) {
     }, 300);
   };
 
+  var clearPreview = function clearPreview(el) {
+    el.style.bottom = '4px';
+    el.innerHTML = '<div class="preview-info-progress"></div>';
+  };
+
   var uploadHandler = function uploadHandler() {
     preview.querySelectorAll('.preview-remove').forEach(function (e) {
       return e.remove();
@@ -299,7 +300,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51057" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53773" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

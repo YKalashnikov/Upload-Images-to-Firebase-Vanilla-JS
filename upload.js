@@ -26,11 +26,8 @@ function noop() {}
 export function upload(selector, options = {}) {
     let files = []
 
-    const onUpload = function(){
-       if(!options.onUpload) {
-           return noop
-       }
-    }
+    const onUpload = options.onUpload ?? noop
+    
     const input = document.querySelector(selector)
     const preview = element('div', ['preview'])
     const open = element('button', ['btn'], 'Open')
@@ -103,6 +100,10 @@ export function upload(selector, options = {}) {
         }, 300)
     }
 
+    const clearPreview = el => {
+        el.style.bottom = '4px';
+        el.innerHTML = '<div class="preview-info-progress"></div>'
+    }
 
     const uploadHandler = () => {
         preview.querySelectorAll('.preview-remove').forEach(e => e.remove())

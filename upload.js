@@ -11,16 +11,25 @@ function bytesToSize(bytes) {
     return Math.round(bytes / Math.pow(1024, i)) + ' ' + sizes[i]
 }
 
+const element = (tag, classes = [], content ) => {
+    const node = document.createElement(tag)
+
+    if(classes.length) {
+        node.classList.add(...classes)
+    }
+
+    if(content) {
+        node.textContent = content
+    }
+
+    return node
+}
 export function upload(selector, options = {}) {
     let files = []
     const input = document.querySelector(selector)
-    const preview = document.createElement('div')
-
-    preview.classList.add('preview')
-
-    const open = document.createElement('button')
-    open.classList.add('btn')
-    open.textContent = 'Open'
+    const preview = element('div', ['preview'])
+    const open = element('button', ['btn'], 'Open')
+    const upload = element('button', ['btn', 'primary'], 'Upload')
 
     if (options.multiple) {
         input.setAttribute('multiple', true)
@@ -30,6 +39,7 @@ export function upload(selector, options = {}) {
         input.setAttribute('accept', options.accept.join(','))
     }
     input.insertAdjacentElement('afterend', preview);
+    input.insertAdjacentElement('afterend', upload);
     input.insertAdjacentElement('afterend', open);
 
     function triggerInput() {

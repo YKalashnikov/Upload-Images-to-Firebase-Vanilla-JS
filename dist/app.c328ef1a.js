@@ -166,9 +166,14 @@ var element = function element(tag) {
   return node;
 };
 
+function noop() {}
+
 function upload(selector) {
+  var _options$onUpload;
+
   var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
   var files = [];
+  var onUpload = (_options$onUpload = options.onUpload) !== null && _options$onUpload !== void 0 ? _options$onUpload : noop;
   var input = document.querySelector(selector);
   var preview = element('div', ['preview']);
   var open = element('button', ['btn'], 'Open');
@@ -236,7 +241,19 @@ function upload(selector) {
     }, 300);
   };
 
-  var uploadHandler = function uploadHandler() {};
+  var clearPreview = function clearPreview(el) {
+    el.style.bottom = '4px';
+    el.innerHTML = '<div class="preview-info-progress"></div>';
+  };
+
+  var uploadHandler = function uploadHandler() {
+    preview.querySelectorAll('.preview-remove').forEach(function (e) {
+      return e.remove();
+    });
+    var previewInfo = preview.querySelectorAll('.preview-info');
+    previewInfo.forEach(clearPreview);
+    onUpload(files);
+  };
 
   open.addEventListener('click', triggerInput);
   input.addEventListener('change', changeHandler);
@@ -250,7 +267,10 @@ var _upload = require("./upload.js");
 
 (0, _upload.upload)('#file', {
   multiple: true,
-  accept: ['.png', '.gif', '.bmp', 'jpeg', 'jpg']
+  accept: ['.png', '.gif', '.bmp', 'jpeg', 'jpg'],
+  onUpload: function onUpload(files) {
+    console.log(files);
+  }
 });
 },{"./upload.js":"upload.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
@@ -280,7 +300,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63230" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53773" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

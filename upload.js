@@ -1,6 +1,3 @@
-import {
-    setTimeout
-} from "timers";
 
 function bytesToSize(bytes) {
     const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB']
@@ -11,14 +8,14 @@ function bytesToSize(bytes) {
     return Math.round(bytes / Math.pow(1024, i)) + ' ' + sizes[i]
 }
 
-const element = (tag, classes = [], content ) => {
+const element = (tag, classes = [], content) => {
     const node = document.createElement(tag)
 
-    if(classes.length) {
+    if (classes.length) {
         node.classList.add(...classes)
     }
 
-    if(content) {
+    if (content) {
         node.textContent = content
     }
 
@@ -30,6 +27,7 @@ export function upload(selector, options = {}) {
     const preview = element('div', ['preview'])
     const open = element('button', ['btn'], 'Open')
     const upload = element('button', ['btn', 'primary'], 'Upload')
+    upload.style.display = 'none'
 
     if (options.multiple) {
         input.setAttribute('multiple', true)
@@ -50,9 +48,11 @@ export function upload(selector, options = {}) {
         if (!e.target.files.length) {
             return
         }
-
+     
         files = Array.from(e.target.files)
         preview.innerHTML = ''
+
+        upload.style.display = 'inline'
 
         files.forEach(file => {
             if (!file.type.match('image')) {
@@ -85,6 +85,9 @@ export function upload(selector, options = {}) {
             name
         } = e.target.dataset
         files = files.filter(file => file.name !== name)
+        if(!files.length) {
+            upload.style.display = 'none'
+        }
         const block = preview.querySelector(`[data-name="${name}"]`).closest('.preview-image')
         block.classList.add('removing')
         setTimeout(() => {
@@ -92,9 +95,12 @@ export function upload(selector, options = {}) {
         }, 300)
     }
 
+    const uploadHandler = () => {
 
+    }
     open.addEventListener('click', triggerInput)
     input.addEventListener('change', changeHandler)
     preview.addEventListener('click', removeHandler)
+    upload.addEventListener('click', uploadHandler)
 
 }

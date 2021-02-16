@@ -1,0 +1,18 @@
+{
+  "name": "upload-images",
+  "version": "1.0.0",
+  "description": "Upload Images to Firebase JS",
+  "main": "index.js",
+  "scripts": {
+    "server": "parcel index.html"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "firebase": "^8.2.7",
+    "upload.js": "0.0.11"
+  },
+  "devDependencies": {
+    "parcel-bundler": "^1.12.4"
+  }
+}

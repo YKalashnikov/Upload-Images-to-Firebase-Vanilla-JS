@@ -67,7 +67,21 @@ export function upload(selector, options = {}) {
             reader.readAsDataURL(file)
         })
     }
-    
+    const removeHandler = (e) => {
+        if (!e.target.dataset) {
+            return
+        }
+        const {
+            name
+        } = e.target.dataset
+        files = files.filter(file => file.name !== name)
+        const block = preview.querySelector(`[data-name="${name}"]`).closest('.preview-image')
+        block.classList.add('removing')
+        setTimeout(() => {
+            block.remove()
+        }, 300)
+    }
+
 
     open.addEventListener('click', triggerInput)
     input.addEventListener('change', changeHandler)
